@@ -4,7 +4,31 @@
     <p class="decode-result">
       Last result: <b>{{ result }}</b>
     </p>
-    <qrcode-stream @decode="onDecode" @init="onInit" />
+
+    <v-dialog v-model="isCamera" width="500">
+      <template v-slot:activator="{ on }">
+        <v-btn color="blue lighten-2" fab small dark v-on="on">
+          <div>
+            <v-icon>mdi-camera</v-icon>
+          </div>
+        </v-btn>
+      </template>
+
+      <v-card>
+        <v-card-title class="headline grey lighten-2" primary-title>
+          QR-SCAN
+        </v-card-title>
+        <qrcode-stream @decode="onDecode" @init="onInit" />
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="isCamera = false">
+            CLOSE
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 <script>
@@ -13,6 +37,7 @@ export default {
     return {
       result: "",
       error: "",
+      isCamera: false,
     };
   },
   methods: {
